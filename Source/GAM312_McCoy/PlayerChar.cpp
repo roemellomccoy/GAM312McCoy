@@ -21,6 +21,9 @@ APlayerChar::APlayerChar()
 void APlayerChar::BeginPlay()
 {
 	Super::BeginPlay();
+
+	FTimerHandle StatsTimerHandle;
+	GetWorld()->GetTimerManager().SetTimer(StatsTimerHandle, this, &APlayerChar::DecreaseStats, 2.0f, true);
 	
 }
 
@@ -69,4 +72,52 @@ void APlayerChar::StopJump()
 void APlayerChar::FindObject()
 {
 }
+
+void APlayerChar::SetHealth(float amount)
+{
+	if (Health + amount < 100)
+	{
+		Health = Health + amount;
+	}
+	else {
+		Health = 100.0f;
+	}
+}
+
+void APlayerChar::SetHunger(float amount)
+{
+	if (Hunger + amount < 100)
+	{
+		Hunger = Hunger + amount;
+	}
+	else {
+		Hunger = 100.0f;
+	}
+}
+
+void APlayerChar::SetStamina(float amount)
+{
+	if (Stamina + amount < 100)
+	{
+		Stamina = Stamina + amount;
+	}
+	else {
+		Stamina = 100.0f;
+	}
+}
+
+void APlayerChar::DecreaseStats()
+{
+	if (Hunger > 0)
+	{
+		SetHunger(-1.0f);
+	}
+	else {
+		SetHealth(-3.0f);
+	}
+
+	SetStamina(10.0f);
+
+}
+
 
